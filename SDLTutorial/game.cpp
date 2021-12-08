@@ -4,7 +4,7 @@
 #include "graphics.h"
 
 Game::Game() {
-	SDL_Init(SDL_INIT_EVERYTHING);
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) std::cout << "Failed at SDL_Init()" << std::endl;
 	this->gameLoop();
 }
 
