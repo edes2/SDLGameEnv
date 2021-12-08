@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <iostream>
 
 #include "graphics.h"
 
@@ -9,5 +10,5 @@ Graphics::Graphics() {
 
 Graphics::~Graphics() {
 	SDL_DestroyWindow(this->_window);
-	SDL_DestroyRenderer(this->_renderer);.
+	SDL_DestroyRenderer(this->_renderer);
 }
