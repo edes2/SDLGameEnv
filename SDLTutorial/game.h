@@ -10,6 +10,6 @@ public:
 private:
 	void gameLoop();
 	void draw(Graphics& graphics); // Rendering to the window
-	void update(); // Updating the objects
+	void update(float elapsedTime); // Updating the objects
 };
 
