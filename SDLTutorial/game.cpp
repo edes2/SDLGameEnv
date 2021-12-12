@@ -24,7 +24,7 @@ void Game::gameLoop() {
 	Input input;
 	SDL_Event event;
 
-	this->_cube = Cube(graphics, 100, 100);
+	this->_cube = Cube(graphics, 16, 16, 100, 100);
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
@@ -46,15 +46,24 @@ void Game::gameLoop() {
 		if (input.wasKeyPressed(SDL_SCANCODE_ESCAPE) == true) {
 			return;
 		}
-		else if (input.isKeyHeld(SDL_SCANCODE_LEFT) == true) {
+		if (input.isKeyHeld(SDL_SCANCODE_LEFT) == true) {
 			this->_cube.moveLeft();
 		}
 		else if (input.isKeyHeld(SDL_SCANCODE_RIGHT) == true) {
 			this->_cube.moveRight();
 		}
+		if (input.isKeyHeld(SDL_SCANCODE_UP) == true) {
+			this->_cube.moveUp();
+		}
+		else if (input.isKeyHeld(SDL_SCANCODE_DOWN) == true) {
+			this->_cube.moveDown();
+		}
 
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
-			this->_cube.stopMoving();
+			this->_cube.stopMoving_x();
+		}
+		if (!input.isKeyHeld(SDL_SCANCODE_UP) && !input.isKeyHeld(SDL_SCANCODE_DOWN)) {
+			this->_cube.stopMoving_y();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();

@@ -7,26 +7,24 @@ class Graphics;
 class Cube : public Sprite {
 public:
 	Cube();
-	Cube(Graphics& graphics, float x, float y);
+	Cube(Graphics& graphics, float w, float h, float x, float y);
 	void draw(Graphics& graphics);
 	void update(float elapsedTime);
 
-	/* void moveLeft
-	 * Moves the player left by -dx
-	 */
+
 	void moveLeft();
 
-	/* void moveRight
-	 * Moves the player right by dx
-	 */
 	void moveRight();
 
-	/* void stopMoving
-	 * Stops moving the player
-	 */
-	void stopMoving();
+	void moveUp();
+
+	void moveDown();
+
+	void stopMoving_x();
+	void stopMoving_y();
 
 private:
 	float _dx, _dy;
+	int _width, _height;
 
 };

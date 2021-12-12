@@ -2,9 +2,10 @@
 #include <iostream>
 
 #include "graphics.h"
+#include "globals.h"
 
 Graphics::Graphics() {
-	if (SDL_CreateWindowAndRenderer(640, 480, 0, &this->_window, &this->_renderer) < 0 ) std::cout << "Failed at SDL_CreateWindowAndRenderer()" << std::endl;
+	if (SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGHT, 0, &this->_window, &this->_renderer) < 0 ) std::cout << "Failed at SDL_CreateWindowAndRenderer()" << std::endl;
 	SDL_SetWindowTitle(this->_window, "MyGame");
 }
 
