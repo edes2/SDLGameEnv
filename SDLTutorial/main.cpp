@@ -1,4 +1,5 @@
 #include "game.h"
+#undef main
 
 // The entrypoint of the game
 
