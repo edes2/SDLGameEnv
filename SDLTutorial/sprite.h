@@ -9,7 +9,7 @@ class Graphics;
 class Sprite {
 public:
 	Sprite();
-	Sprite(Graphics& graphics, int sourceX, int sourceY, int width, int height,
+	Sprite(Graphics& graphics, int width, int height,
 		float posX, float posY);
 	virtual ~Sprite();
 	virtual void update();

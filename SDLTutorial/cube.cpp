@@ -9,7 +9,7 @@ namespace cube_constants {
 Cube::Cube() {}
 
 Cube::Cube(Graphics& graphics, float w, float h, float x, float y) :
-	Sprite(graphics, 0, 0, w, h, x, y),
+	Sprite(graphics, w, h, x, y),
 	_width(w),
 	_height(h)
 {
@@ -51,5 +51,7 @@ void Cube::update(float elapsedTime) {
 }
 
 void Cube::draw(Graphics& graphics) {
+	graphics.setColor(255, 255, 255);
 	Sprite::draw(graphics, this->_x, this->_y);
+	graphics.setColor(0, 0, 0);
 }
