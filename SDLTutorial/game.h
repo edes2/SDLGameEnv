@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cube.h"
+#include "player.h"
 
 class Graphics;
 
@@ -14,6 +14,6 @@ private:
 	void draw(Graphics& graphics); // Rendering to the window
 	void update(float elapsedTime); // Updating the objects
 
-	Cube _cube;
+	Player _player;
 };
 

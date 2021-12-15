@@ -24,7 +24,7 @@ void Game::gameLoop() {
 	Input input;
 	SDL_Event event;
 
-	this->_cube = Cube(graphics, 16, 16, 100, 100);
+	this->_player = Player(graphics, 100, 100, 16, 16);
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
@@ -47,23 +47,23 @@ void Game::gameLoop() {
 			return;
 		}
 		if (input.isKeyHeld(SDL_SCANCODE_LEFT) == true) {
-			this->_cube.moveLeft();
+			this->_player.moveLeft();
 		}
 		else if (input.isKeyHeld(SDL_SCANCODE_RIGHT) == true) {
-			this->_cube.moveRight();
+			this->_player.moveRight();
 		}
 		if (input.isKeyHeld(SDL_SCANCODE_UP) == true) {
-			this->_cube.moveUp();
+			this->_player.moveUp();
 		}
 		else if (input.isKeyHeld(SDL_SCANCODE_DOWN) == true) {
-			this->_cube.moveDown();
+			this->_player.moveDown();
 		}
 
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
-			this->_cube.stopMoving_x();
+			this->_player.stopMoving_x();
 		}
 		if (!input.isKeyHeld(SDL_SCANCODE_UP) && !input.isKeyHeld(SDL_SCANCODE_DOWN)) {
-			this->_cube.stopMoving_y();
+			this->_player.stopMoving_y();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
@@ -78,11 +78,11 @@ void Game::gameLoop() {
 void Game::draw(Graphics & graphics) {
 	graphics.clear();
 
-	this->_cube.draw(graphics);
+	this->_player.draw(graphics);
 
 	graphics.flip();
 }
 
 void Game::update(float elapsedTime) {
-	this->_cube.update(elapsedTime);
+	this->_player.update(elapsedTime);
 }

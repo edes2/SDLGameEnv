@@ -9,7 +9,7 @@ class Graphics;
 class Sprite {
 public:
 	Sprite();
-	Sprite(Graphics& graphics, int width, int height,
+	Sprite(Graphics& graphics, const std::string& filePath, int sourceX, int sourceY, int width, int height,
 		float posX, float posY);
 	virtual ~Sprite();
 	virtual void update();
@@ -17,6 +17,7 @@ public:
 
 protected:
 	SDL_Rect _sourceRect;
+	SDL_Texture* _spriteSheet;
 
 	float _x, _y;
 private:
