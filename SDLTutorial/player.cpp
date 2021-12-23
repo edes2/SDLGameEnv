@@ -9,7 +9,7 @@ namespace player_constants {
 Player::Player() {}
 
 Player::Player(Graphics& graphics, float x, float y, float w, float h) :
-	AnimatedSprite(graphics, "content/sprites/MyChar.png", 0, 0, w, h, x, y, 100), // 16 and 16 is the pixel player width in the png
+	AnimatedSprite(graphics, "content/sprites/MyChar.png", 0, 0, w, h, x, y, 100.0f), // 16 and 16 is the pixel player width in the png
 	_width(w),
 	_height(h)
 {
@@ -61,10 +61,10 @@ void Player::update(float elapsedTime) {
 
 	AnimatedSprite::update(elapsedTime);
 	if ((this->_x + this->_width * globals::SPRITE_SCALE) > globals::SCREEN_WIDTH) this->_x = globals::SCREEN_WIDTH - this->_width * globals::SPRITE_SCALE;
-	if (this->_x < 0) this->_x = 0;
+	if (this->_x < 0.0f) this->_x = 0.0f;
 
 	if ((this->_y + this->_height * globals::SPRITE_SCALE) > globals::SCREEN_HEIGHT) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
-	if (this->_y < 0) this->_y = 0;
+	if (this->_y < 0.0f) this->_y = 0.0f;
 }
 
 void Player::draw(Graphics& graphics) {
