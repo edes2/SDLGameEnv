@@ -4,6 +4,8 @@
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
+	const float GRAVITY = 0.001f;
+	const float JUMP = 0.9f;
 }
 
 Player::Player() {}
@@ -55,7 +57,17 @@ void Player::stopMoving_y() {
 	this->_dy = 0.0f;
 }
 
+void Player::jump() {
+	if ((this->_y == globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE))
+	{
+   		this->_dy = -player_constants::JUMP;
+	}
+
+	//this->_dy = -player_constants::WALK_SPEED;
+}
+
 void Player::update(float elapsedTime) {
+	this->_dy += player_constants::GRAVITY; //Gravity here not good, incrementing each clock cycle which is way too much
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 

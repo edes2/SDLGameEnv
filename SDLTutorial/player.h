@@ -23,6 +23,8 @@ public:
 	void stopMoving_x();
 	void stopMoving_y();
 
+	void jump();
+
 	virtual void animationDone(std::string currentAnimation);
 	virtual void setupAnimations();
 

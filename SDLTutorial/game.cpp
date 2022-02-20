@@ -53,18 +53,24 @@ void Game::gameLoop() {
 			this->_player.moveRight();
 		}
 		if (input.isKeyHeld(SDL_SCANCODE_UP) == true) {
+			std::cout << "Up\n";
 			this->_player.moveUp();
 		}
 		else if (input.isKeyHeld(SDL_SCANCODE_DOWN) == true) {
 			this->_player.moveDown();
 		}
+		if (input.isKeyHeld(SDL_SCANCODE_SPACE) == true) {
+			std::cout << "Jumping" << std::endl;
+			this->_player.jump();
+		}
 
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
 			this->_player.stopMoving_x();
 		}
-		if (!input.isKeyHeld(SDL_SCANCODE_UP) && !input.isKeyHeld(SDL_SCANCODE_DOWN)) {
-			this->_player.stopMoving_y();
-		}
+		//if (!input.isKeyHeld(SDL_SCANCODE_UP) && !input.isKeyHeld(SDL_SCANCODE_DOWN)) {
+		//	this->_player.stopMoving_y();
+		//}
+
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
