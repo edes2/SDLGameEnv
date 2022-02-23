@@ -4,8 +4,8 @@
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
-	const float GRAVITY = 0.001f;
-	const float JUMP = 0.9f;
+	const float GRAVITY = 0.00006f;
+	const float JUMP = 0.5f;
 }
 
 Player::Player() {}
@@ -40,14 +40,6 @@ void Player::moveRight() {
 	this->_facing = RIGHT;
 }
 
-void Player::moveUp() {
-	this->_dy = -player_constants::WALK_SPEED;
-}
-
-void Player::moveDown() {
-	this->_dy = +player_constants::WALK_SPEED;
-}
-
 void Player::stopMoving_x() {
 	this->_dx = 0.0f;
 	this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
@@ -62,8 +54,6 @@ void Player::jump() {
 	{
    		this->_dy = -player_constants::JUMP;
 	}
-
-	//this->_dy = -player_constants::WALK_SPEED;
 }
 
 void Player::update(float elapsedTime) {

@@ -16,10 +16,6 @@ public:
 
 	void moveRight();
 
-	void moveUp();
-
-	void moveDown();
-
 	void stopMoving_x();
 	void stopMoving_y();
 

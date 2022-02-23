@@ -1,9 +1,10 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 
 #include "game.h"
 #include "graphics.h"
 #include "input.h"
+#include "globals.h"
 
 namespace {
 	const int FPS = 60;
@@ -24,7 +25,7 @@ void Game::gameLoop() {
 	Input input;
 	SDL_Event event;
 
-	this->_player = Player(graphics, 100.0f, 100.0f, 16.0f, 16.0f);
+	this->_player = Player(graphics, 100.0f, globals::SCREEN_HEIGHT-16.0f, 16.0f, 16.0f);
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
@@ -52,24 +53,12 @@ void Game::gameLoop() {
 		else if (input.isKeyHeld(SDL_SCANCODE_RIGHT) == true) {
 			this->_player.moveRight();
 		}
-		if (input.isKeyHeld(SDL_SCANCODE_UP) == true) {
-			std::cout << "Up\n";
-			this->_player.moveUp();
-		}
-		else if (input.isKeyHeld(SDL_SCANCODE_DOWN) == true) {
-			this->_player.moveDown();
-		}
 		if (input.isKeyHeld(SDL_SCANCODE_SPACE) == true) {
-			std::cout << "Jumping" << std::endl;
 			this->_player.jump();
 		}
-
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
 			this->_player.stopMoving_x();
 		}
-		//if (!input.isKeyHeld(SDL_SCANCODE_UP) && !input.isKeyHeld(SDL_SCANCODE_DOWN)) {
-		//	this->_player.stopMoving_y();
-		//}
 
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
