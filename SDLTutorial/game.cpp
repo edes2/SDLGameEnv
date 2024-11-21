@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <iostream>
 
 #include "game.h"
@@ -25,7 +25,7 @@ void Game::gameLoop() {
 	Input input;
 	SDL_Event event;
 
-	this->_player = Player(graphics, 100.0f, globals::SCREEN_HEIGHT-16.0f, 16.0f, 16.0f);
+	this->_player = Player(graphics, 100.0f, globals::SCREEN_HEIGHT - 16.0f, 16.0f, 16.0f);
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
@@ -59,7 +59,6 @@ void Game::gameLoop() {
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
 			this->_player.stopMoving_x();
 		}
-
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
