@@ -66,7 +66,7 @@ void Player::update(float elapsedTime) {
 	if (this->_x < 0.0f) this->_x = 0.0f;
 
 	if ((this->_y + this->_height * globals::SPRITE_SCALE) > globals::SCREEN_HEIGHT) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
-	if (this->_y < 0.0f) this->_y = 0.0f;
+	if (this->_y < globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
 }
 
 void Player::draw(Graphics& graphics) {
