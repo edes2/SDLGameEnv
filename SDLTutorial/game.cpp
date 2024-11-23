@@ -13,21 +13,29 @@ namespace {
 
 Game::Game() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        std::cout << "Failed at SDL_Init()" << std::endl;
+        printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
         return;
     }
-    
-    if (!initializeAudio()) {
-        std::cout << "Failed to initialize audio" << std::endl;
+
+	if (!initializeAudio()) {
+        printf("Failed to initialize audio!\n");
         return;
     }
-    
+
+	gJump = Mix_LoadWAV( "content/sounds/jump.wav" );
+    if( gJump == NULL )
+    {
+        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+        return;
+    }
+
     this->gameLoop();
 }
 
 Game::~Game() {
-    Mix_CloseAudio();
-    Mix_Quit();
+	Mix_FreeChunk( gJump );
+	gJump = NULL;
+	Mix_Quit();
     SDL_Quit();
 }
 
@@ -65,7 +73,20 @@ void Game::gameLoop() {
 			this->_player.moveRight();
 		}
 		if (input.isKeyHeld(SDL_SCANCODE_SPACE) == true) {
+			if (gJump == nullptr) {
+				printf("Jump sound not loaded\n");
+				return;
+			}
+
+			// Check if jump sound is already playing
+			if (!Mix_Playing(1)) {
+				int channel = Mix_PlayChannel(1, gJump, 0);
+				if (channel == -1) {
+					printf("Mix_PlayChannel failed: %s\n", Mix_GetError());
+				}
+			}
 			this->_player.jump();
+
 		}
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
 			this->_player.stopMoving_x();
@@ -93,16 +114,12 @@ void Game::update(float elapsedTime) {
 }
 
 bool Game::initializeAudio() {
-    if (Mix_Init(MIX_INIT_MP3) == 0) {
-        printf("Mix_Init error: %s\n", Mix_GetError());
-        return false;
-    }
-    
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        printf("Mix_OpenAudio error: %s\n", Mix_GetError());
-        return false;
-    }
-    
-    Mix_VolumeMusic(64);
-    return true;
+    //Initialize SDL_mixer
+	if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+	{
+		printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+		return false;
+	}
+	return true;
 }
+

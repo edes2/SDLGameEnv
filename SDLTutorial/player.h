@@ -2,7 +2,6 @@
 
 #include "animatedsprite.h"
 #include "globals.h"
-#include <SDL_mixer.h>
 
 
 class Graphics;
@@ -10,7 +9,6 @@ class Graphics;
 class Player : public AnimatedSprite {
 public:
 	Player();
-	~Player();
 	Player(Graphics& graphics, float x, float y, float w, float h);
 	void draw(Graphics& graphics);
 	void update(float elapsedTime);
@@ -20,6 +18,7 @@ public:
 
 	void stopMoving_x();
 	void stopMoving_y();
+
 
 	void jump();
 
@@ -34,7 +33,4 @@ private:
 	Direction _facing;
 
 	bool isJumping;
-    Mix_Music* _jumpSound;
-
-
 };
