@@ -12,12 +12,23 @@ namespace {
 }
 
 Game::Game() {
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) std::cout << "Failed at SDL_Init()" << std::endl;
-	this->gameLoop();
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        std::cout << "Failed at SDL_Init()" << std::endl;
+        return;
+    }
+    
+    if (!initializeAudio()) {
+        std::cout << "Failed to initialize audio" << std::endl;
+        return;
+    }
+    
+    this->gameLoop();
 }
 
 Game::~Game() {
-	SDL_Quit();
+    Mix_CloseAudio();
+    Mix_Quit();
+    SDL_Quit();
 }
 
 void Game::gameLoop() {
@@ -79,4 +90,19 @@ void Game::draw(Graphics & graphics) {
 
 void Game::update(float elapsedTime) {
 	this->_player.update(elapsedTime);
+}
+
+bool Game::initializeAudio() {
+    if (Mix_Init(MIX_INIT_MP3) == 0) {
+        printf("Mix_Init error: %s\n", Mix_GetError());
+        return false;
+    }
+    
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("Mix_OpenAudio error: %s\n", Mix_GetError());
+        return false;
+    }
+    
+    Mix_VolumeMusic(64);
+    return true;
 }

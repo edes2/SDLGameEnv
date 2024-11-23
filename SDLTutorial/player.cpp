@@ -13,8 +13,15 @@ Player::Player() {}
 Player::Player(Graphics& graphics, float x, float y, float w, float h) :
 	AnimatedSprite(graphics, "content/sprites/MyChar.png", 0, 0, w, h, x, y, 100.0f), // 16 and 16 is the pixel player width in the png
 	_width(w),
-	_height(h)
+	_height(h),
+	_jumpSound(nullptr)
+
 {
+	_jumpSound = Mix_LoadMUS("content/sounds/jump.mp3");
+    if (_jumpSound == nullptr) {
+        printf("Mix_LoadMUS error: %s\n", Mix_GetError());
+    }
+
 	this->isJumping = false;
 	this->setupAnimations();
 	this->playAnimation("RunRight");
@@ -51,9 +58,17 @@ void Player::stopMoving_y() {
 }
 
 void Player::jump() {
-	if (!this->isJumping) {
+    if (!this->isJumping) {
         this->_dy = player_constants::JUMP_VELOCITY;
         this->isJumping = true;
+        
+        if (_jumpSound != nullptr) {
+            if (Mix_PlayingMusic() == 0) { // Only play if no music is currently playing
+                if (Mix_PlayMusic(_jumpSound, 0) == -1) {
+                    printf("Mix_PlayMusic error: %s\n", Mix_GetError());
+                }
+            }
+        }
     }
 }
 
@@ -84,20 +99,17 @@ void Player::update(float elapsedTime) {
         this->_x = 0.0f;
     }
 
-	// if (this->_y >= globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) {
-	// 		this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
-	// 		this->_dy = 0;
-	// 		this->isJumping = false;
-	// }
-
 	AnimatedSprite::update(elapsedTime);
-	// if ((this->_x + this->_width * globals::SPRITE_SCALE) > globals::SCREEN_WIDTH) this->_x = globals::SCREEN_WIDTH - this->_width * globals::SPRITE_SCALE;
-	// if (this->_x < 0.0f) this->_x = 0.0f;
-
-	// if ((this->_y + this->_height * globals::SPRITE_SCALE) > globals::SCREEN_HEIGHT) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
-	// if (this->_y < globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
 }
 
 void Player::draw(Graphics& graphics) {
 	AnimatedSprite::draw(graphics, this->_x, this->_y);
+}
+
+Player::~Player() {
+    if (_jumpSound != nullptr) {
+        Mix_HaltMusic();
+        Mix_FreeMusic(_jumpSound);
+        _jumpSound = nullptr;
+    }
 }
