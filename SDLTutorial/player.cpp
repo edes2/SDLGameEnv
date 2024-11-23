@@ -5,7 +5,7 @@
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
 	const float GRAVITY = 0.0017f;
-	const float JUMP_VELOCITY = -0.71f;
+	const float JUMP_VELOCITY = -0.7f;
 }
 
 Player::Player() {}
