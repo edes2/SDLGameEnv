@@ -13,7 +13,6 @@ public:
 	void update(float elapsedTime);
 
 	void moveLeft();
-
 	void moveRight();
 
 	void stopMoving_x();
@@ -30,5 +29,7 @@ private:
 	float _width, _height;
 
 	Direction _facing;
+
+	bool isJumping;
 
 };

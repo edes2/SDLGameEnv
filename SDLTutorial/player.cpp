@@ -4,8 +4,8 @@
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
-	const float GRAVITY = 0.00006f;
-	const float JUMP = 0.5f;
+	const float GRAVITY = 0.0017f;
+	const float JUMP_VELOCITY = -0.7f;
 }
 
 Player::Player() {}
@@ -15,6 +15,7 @@ Player::Player(Graphics& graphics, float x, float y, float w, float h) :
 	_width(w),
 	_height(h)
 {
+	this->isJumping = false;
 	this->setupAnimations();
 	this->playAnimation("RunRight");
 }
@@ -50,23 +51,51 @@ void Player::stopMoving_y() {
 }
 
 void Player::jump() {
-	if ((this->_y == globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE))
-	{
-   		this->_dy = -player_constants::JUMP;
-	}
+	if (!this->isJumping) {
+        this->_dy = player_constants::JUMP_VELOCITY;
+        this->isJumping = true;
+    }
 }
 
 void Player::update(float elapsedTime) {
-	this->_dy += player_constants::GRAVITY; //Gravity here not good, incrementing each clock cycle which is way too much
+    this->_dy += player_constants::GRAVITY * elapsedTime;
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
-	AnimatedSprite::update(elapsedTime);
-	if ((this->_x + this->_width * globals::SPRITE_SCALE) > globals::SCREEN_WIDTH) this->_x = globals::SCREEN_WIDTH - this->_width * globals::SPRITE_SCALE;
-	if (this->_x < 0.0f) this->_x = 0.0f;
+	// Ground collision
+    float groundLevel = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
+    if (this->_y >= groundLevel) {
+        this->_y = groundLevel;
+        this->_dy = 0.0f;
+        this->isJumping = false;
+    }
 
-	if ((this->_y + this->_height * globals::SPRITE_SCALE) > globals::SCREEN_HEIGHT) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
-	if (this->_y < globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
+	// Ceiling collision
+    if (this->_y < 0.0f) {
+        this->_y = 0.0f;
+        this->_dy = 0.0f;
+    }
+
+	// Horizontal bounds
+    if ((this->_x + this->_width * globals::SPRITE_SCALE) > globals::SCREEN_WIDTH) {
+        this->_x = globals::SCREEN_WIDTH - this->_width * globals::SPRITE_SCALE;
+    }
+    if (this->_x < 0.0f) {
+        this->_x = 0.0f;
+    }
+
+	// if (this->_y >= globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) {
+	// 		this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
+	// 		this->_dy = 0;
+	// 		this->isJumping = false;
+	// }
+
+	AnimatedSprite::update(elapsedTime);
+	// if ((this->_x + this->_width * globals::SPRITE_SCALE) > globals::SCREEN_WIDTH) this->_x = globals::SCREEN_WIDTH - this->_width * globals::SPRITE_SCALE;
+	// if (this->_x < 0.0f) this->_x = 0.0f;
+
+	// if ((this->_y + this->_height * globals::SPRITE_SCALE) > globals::SCREEN_HEIGHT) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
+	// if (this->_y < globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE) this->_y = globals::SCREEN_HEIGHT - this->_height * globals::SPRITE_SCALE;
 }
 
 void Player::draw(Graphics& graphics) {
