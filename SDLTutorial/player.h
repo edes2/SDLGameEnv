@@ -1,16 +1,17 @@
 #pragma once
 
+#include "soundManager.h"
 #include "animatedsprite.h"
 #include "globals.h"
 
-
 class Graphics;
 
-class Player : public AnimatedSprite {
+class Player : public AnimatedSprite
+{
 public:
 	Player();
-	Player(Graphics& graphics, float x, float y, float w, float h);
-	void draw(Graphics& graphics);
+	Player(Graphics &graphic, float x, float y, float w, float h);
+	void draw(Graphics &graphics);
 	void update(float elapsedTime);
 
 	void moveLeft();
@@ -18,7 +19,6 @@ public:
 
 	void stopMoving_x();
 	void stopMoving_y();
-
 
 	void jump();
 
@@ -33,4 +33,6 @@ private:
 	Direction _facing;
 
 	bool isJumping;
+
+	SoundManager *soundManager;
 };
